@@ -1,1 +1,114 @@
-InVzZSBjbGllbnQiOwoKaW1wb3J0IHsgVGFicywgVGFic0NvbnRlbnQsIFRhYnNMaXN0LCBUYWJzVHJpZ2dlciB9IGZyb20gIkAvY29tcG9uZW50cy91aS90YWJzIjsKaW1wb3J0IHsgbWVudUl0ZW1zLCBDQVRFR09SSUVTIH0gZnJvbSAiQC9saWIvbWVudS1kYXRhIjsKaW1wb3J0IE1lbnVGbGFzaGNhcmQgZnJvbSAiQC9jb21wb25lbnRzL21lbnUtZmxhc2hjYXJkIjsKaW1wb3J0IE1lbnVRdWl6IGZyb20gIkAvY29tcG9uZW50cy9tZW51LXF1aXoiOwppbXBvcnQgTWVudUJyb3dzZSBmcm9tICJAL2NvbXBvbmVudHMvbWVudS1icm93c2UiOwoKZXhwb3J0IGRlZmF1bHQgZnVuY3Rpb24gSG9tZSgpIHsKICBjb25zdCBjYXRTdGF0cyA9IENBVEVHT1JJRVMuZmlsdGVyKGMgPT4gYy5pZCAhPT0gJ2FsbCcpLm1hcChjYXQgPT4gKHsKICAgIC4uLmNhdCwKICAgIGNvdW50OiBtZW51SXRlbXMuZmlsdGVyKGkgPT4gaS5jYXRlZ29yeSA9PT0gY2F0LmlkKS5sZW5ndGgKICB9KSk7CgogIHJldHVybiAoCiAgICA8ZGl2IGNsYXNzTmFtZT0ibWluLWgtc2NyZWVuIiBzdHlsZT17e2JhY2tncm91bmRDb2xvcjogJyNmZGY2ZWMnfX0+CiAgICAgIHsvKiBIZWFkZXIgKi99CiAgICAgIDxoZWFkZXIgY2xhc3NOYW1lPSJ0ZXh0LXdoaXRlIHB5LTUgcHgtNCIgc3R5bGU9e3tiYWNrZ3JvdW5kQ29sb3I6ICcjMWE0ZDJlJ319PgogICAgICAgIDxkaXYgY2xhc3NOYW1lPSJtYXgtdy0yWGwgbXgtYXV0byI+CiAgICAgICAgICA8ZGl2IGNsYXNzTmFtZT0iZmxleCBpdGVtcy1jZW50ZXIgZ2FwLTMgbWItNCI+CiAgICAgICAgICAgIDxzcGFuIGNsYXNzTmFtZT0idGV4dC00eGwiPvCfljU8L3NwYW4+CiAgICAgICAgICAgIDxkaXY+CiAgICAgICAgICAgICAgPGgxIGNsYXNzTmFtZT0idGV4dC0yeGwgZm9udC1ib2xkIHRyYWNraW5nLXdpZGVzdCI+Tk9QQUw8L2gxPgogICAgICAgICAgICAgIDxwIGNsYXNzTmFtZT0idGV4dC1zbSBvcGFjaXR5LTgwIj5NZW51IFN0dWR5IEd1aWRlIOKAoiB7bWVudUl0ZW1zLmxlbmd0aH0gaXRlbXM8L3A+CiAgICAgICAgICAgIDwvZGl2PgogICAgICAgICAgPC9kaXY+CiAgICAgICAgICA8ZGl2IGNsYXNzTmFtZT0iZmxleCBnYXAtMiBmbGV4LXdyYXAiPgogICAgICAgICAgICB7Y2F0U3RhdHMubWFwKGNhdCA9PiAoCiAgICAgICAgICAgICAgPHNwYW4ga2V5PXtjYXQuaWR9IGNsYXNzTmFtZT0iYmctd2hpdGUvMjAgcm91bmRlZC1mdWxsIHB4LTMgcHktMSB0ZXh0LXhzIGZsZXggaXRlbXMtY2VudGVyIGdhcC0xIj4KICAgICAgICAgICAgICAgIDxzcGFuPntjYXQuZW1vaml9PC9zcGFuPgogICAgICAgICAgICAgICAgPHNwYW4+e2NhdC5uYW1lfTwvc3Bhbj4KICAgICAgICAgICAgICAgIDxzcGFuIGNsYXNzTmFtZT0iZm9udC1ib2xkIj4oe2NhdC5jb3VudH0pPC9zcGFuPgogICAgICAgICAgICAgIDwvc3Bhbj4KICAgICAgICAgICAgKSl9CiAgICAgICAgICA8L2Rpdj4KICAgICAgICA8L2Rpdj4KICAgICAgPC9oZWFkZXI+CgogICAgICB7LyogTWFpbiBDb250ZW50ICovfQogICAgICA8bWFpbiBjbGFzc05hbWU9Im1heC13LTJ4bCBteC1hdXRvIHAtNCI+CiAgICAgICAgPFRhYnMgZGVmYXVsdFZhbHVlPSJmbGFzaGNhcmRzIiBjbGFzc05hbWU9Inctd
+"use client";
+
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { MenuFlashcard } from "@/components/menu-flashcard";
+import { MenuQuiz } from "@/components/menu-quiz";
+import { MenuBrowse } from "@/components/menu-browse";
+import { menuItems, CATEGORIES } from "@/lib/menu-data";
+
+export default function MenuStudyApp() {
+  const totalItems = menuItems.length;
+  const categoryCounts = CATEGORIES.filter((c) => c.id !== "all").map((cat) => ({
+    ...cat,
+    count: menuItems.filter((m) => m.category === cat.id).length,
+  }));
+
+  return (
+    <div className="min-h-screen" style={{ backgroundColor: "#fdf6ec" }}>
+      {/* Header */}
+      <header
+        className="py-8 px-4 shadow-md"
+        style={{ backgroundColor: "#1a4d2e" }}
+      >
+        <div className="max-w-3xl mx-auto">
+          <div className="flex items-center justify-between">
+            <div>
+              <h1 className="text-3xl font-black text-white tracking-tight">
+                🌵 NOPAL
+              </h1>
+              <p className="text-green-300 text-sm font-medium mt-0.5">
+                Menu Study Guide
+              </p>
+            </div>
+            <div className="text-right">
+              <p className="text-white font-bold text-2xl">{totalItems}</p>
+              <p className="text-green-300 text-xs">dishes to learn</p>
+            </div>
+          </div>
+
+          {/* Category quick stats */}
+          <div className="flex flex-wrap gap-2 mt-5">
+            {categoryCounts.map((cat) => (
+              <div
+                key={cat.id}
+                className="px-2.5 py-1 rounded-full text-xs font-medium"
+                style={{ backgroundColor: "rgba(255,255,255,0.12)", color: "#a7f3d0" }}
+              >
+                {cat.emoji} {cat.name} ({cat.count})
+              </div>
+            ))}
+          </div>
+        </div>
+      </header>
+
+      {/* Main */}
+      <main className="max-w-3xl mx-auto px-4 py-8">
+        <Tabs defaultValue="flashcards" className="w-full">
+          <TabsList className="grid w-full grid-cols-3 mb-8 h-12 bg-white border border-gray-200 shadow-sm rounded-xl p-1">
+            <TabsTrigger
+              value="flashcards"
+              className="rounded-lg text-sm font-semibold data-[state=active]:bg-green-700 data-[state=active]:text-white"
+            >
+              🃏 Flashcards
+            </TabsTrigger>
+            <TabsTrigger
+              value="quiz"
+              className="rounded-lg text-sm font-semibold data-[state=active]:bg-green-700 data-[state=active]:text-white"
+            >
+              🧠 Quiz
+            </TabsTrigger>
+            <TabsTrigger
+              value="browse"
+              className="rounded-lg text-sm font-semibold data-[state=active]:bg-green-700 data-[state=active]:text-white"
+            >
+              📋 Browse
+            </TabsTrigger>
+          </TabsList>
+
+          <TabsContent value="flashcards">
+            <div className="bg-white/60 rounded-2xl p-1">
+              <div className="bg-amber-50 rounded-xl p-4 mb-4 border border-amber-100">
+                <p className="text-sm text-amber-700 font-medium">
+                  💡 <strong>How to use:</strong> Click a card to reveal its ingredients. Hit "Got it!" to mark it as known and move on. Filter by category to focus your study.
+                </p>
+              </div>
+              <MenuFlashcard />
+            </div>
+          </TabsContent>
+
+          <TabsContent value="quiz">
+            <div className="bg-white/60 rounded-2xl p-1">
+              <div className="bg-blue-50 rounded-xl p-4 mb-4 border border-blue-100">
+                <p className="text-sm text-blue-700 font-medium">
+                  🧠 <strong>Quiz mode:</strong> You'll see a dish name and 4 possible ingredient sets. Pick the one that matches. 10 questions per round!
+                </p>
+              </div>
+              <MenuQuiz />
+            </div>
+          </TabsContent>
+
+          <TabsContent value="browse">
+            <div className="bg-white/60 rounded-2xl p-1">
+              <div className="bg-purple-50 rounded-xl p-4 mb-4 border border-purple-100">
+                <p className="text-sm text-purple-700 font-medium">
+                  📋 <strong>Reference mode:</strong> Browse all {totalItems} dishes. Search by dish name or ingredient. Click any dish to expand its ingredients.
+                </p>
+              </div>
+              <MenuBrowse />
+            </div>
+          </TabsContent>
+        </Tabs>
+      </main>
+    </div>
+  );
+}
